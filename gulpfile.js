@@ -102,16 +102,22 @@ gulp.task("build-prod-js", () => {
                 .pipe(gulp.dest(dist + '/js'));
 });
 
+// Копирование дополнительных JS-файлов, которые не собираются через Webpack
+gulp.task('copy-js', () => {
+    return gulp.src('./src/js/slider.js')
+           .pipe(gulp.dest(dist + '/js'))
+           .pipe(browserSync.stream());
+});
 
-gulp.task('build', gulp.series('clean', gulp.parallel('copy-html', 'copy-assets', 'fonts', 'build-js')));
-gulp.task('build-prod', gulp.series('clean', gulp.parallel('copy-html', 'copy-assets', 'fonts', 'build-prod-js')));
+gulp.task('build', gulp.series('clean', gulp.parallel('copy-html', 'copy-assets', 'fonts', 'build-js', 'copy-js')));
+gulp.task('build-prod', gulp.series('clean', gulp.parallel('copy-html', 'copy-assets', 'fonts', 'build-prod-js', 'copy-js')));
 
 // Задача для отслеживания изменений
 gulp.task('watch', () => {
     gulp.watch('./src/*.html', gulp.series('copy-html'));
     gulp.watch('./src/assets/**/*.*', gulp.series('copy-assets'));
     gulp.watch('./src/assets/fonts/**/*.*', gulp.series('fonts'));
-    gulp.watch('./src/js/**/*.js', gulp.series('build-js'));
+    gulp.watch('./src/js/**/*.js', gulp.series('build-js', 'copy-js'));
 });
 
 gulp.task('default', gulp.series('build', gulp.parallel('browser-sync', 'watch')));

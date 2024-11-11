@@ -1,10 +1,10 @@
 const modal = () => {
     function bindModal(trigger, classModal, closeButton, closeOverlay = null) {
         const button = document.querySelectorAll(trigger),
-            modal = document.querySelector(classModal),
-            closeBtn = document.querySelectorAll(closeButton),
-            body = document.querySelector('body'),
-            windows = document.querySelectorAll('[data-modal]')
+              modal = document.querySelector(classModal),
+              closeBtn = document.querySelectorAll(closeButton),
+              body = document.querySelector('body'),
+              windows = document.querySelectorAll('[data-modal]')
 
         function closePrevModal() {
             windows.forEach(item => {
