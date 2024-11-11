@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/js/modules/modal.js":
@@ -8,34 +7,137 @@
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const modal = () => {
-  function bindModal(trigger, classModal, closeButton, closeOverflow) {}
-  const button = document.querySelector('.popup_engineer_btn'),
-    modal = document.querySelector('.popup_engineer'),
-    closeBtn = document.querySelectorAll('.popup_close'),
-    body = document.querySelector('body');
-  button.addEventListener('click', () => {
-    modal.style.display = 'block';
-    body.style.overflow = 'hidden';
-  });
-  closeBtn.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.style.display = 'none';
-      body.style.overflow = '';
-    });
-  });
-  modal.addEventListener('click', event => {
-    if (event.target.classList.contains('popup_engineer')) {
+  function bindModal(trigger, classModal, closeButton, closeOverlay = null) {
+    const button = document.querySelectorAll(trigger),
+      modal = document.querySelector(classModal),
+      closeBtn = document.querySelectorAll(closeButton),
+      body = document.querySelector('body'),
+      windows = document.querySelectorAll('[data-modal]');
+    function closePrevModal() {
+      windows.forEach(item => {
+        item.style.display = 'none';
+      });
+    }
+    function showModal() {
+      modal.style.display = 'block';
+      body.style.overflow = 'hidden';
+    }
+    function closeModal() {
       modal.style.display = 'none';
       body.style.overflow = '';
     }
-  });
+    button.forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        closePrevModal();
+        showModal();
+      });
+    });
+    closeBtn.forEach(btn => {
+      btn.addEventListener('click', () => {
+        closePrevModal();
+        closeModal();
+      });
+    });
+    modal.addEventListener('click', event => {
+      if (event.target.classList.contains(closeOverlay)) {
+        closePrevModal();
+        closeModal();
+      }
+    });
+  }
+  bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_close', 'popup_engineer');
+  bindModal('.phone_link', '.popup', '.popup_close', 'popup');
+  bindModal('.popup_calc_btn', '.popup_calc', '.popup_calc_close');
+  bindModal('.popup_calc_button', '.popup_calc_profile ', '.popup_calc_profile_close');
+  bindModal('.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close');
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
+
+/***/ }),
+
+/***/ "./src/js/slider.js":
+/*!**************************!*\
+  !*** ./src/js/slider.js ***!
+  \**************************/
+/***/ (() => {
+
+$(document).ready(function () {
+  $('.glazing_slider').slick({
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [{
+      breakpoint: 1201,
+      settings: {
+        slidesToShow: 4,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }, {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 3,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 530,
+      settings: {
+        slidesToShow: 1,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }]
+  });
+  $('.decoration_slider').slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [{
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 3,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }, {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 2,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 2
+      }
+    }, {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1,
+        prevArrow: '<button class="prev arrow"></button>',
+        nextArrow: '<button class="next arrow"></button>',
+        slidesToScroll: 1
+      }
+    }]
+  });
+});
 
 /***/ })
 
@@ -66,6 +168,18 @@ const modal = () => {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -96,18 +210,22 @@ const modal = () => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_slider__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+
 
 window.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  (0,_modules_modal__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])();
 });
 })();
 
