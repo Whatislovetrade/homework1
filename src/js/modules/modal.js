@@ -38,8 +38,8 @@ const modal = () => {
             })
         })
 
-        modal.addEventListener('click', (event) => {
-            if(event.target.classList.contains(closeOverlay)) {
+        modal.addEventListener('click', (e) => {
+            if(e.target.classList.contains(closeOverlay)) {
                 closePrevModal()
                 closeModal()
             }
