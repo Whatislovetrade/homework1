@@ -898,6 +898,10 @@ textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.balcon_icons_img {
+  cursor: pointer;
+}
+
 .popup_calc_content {
   position: fixed;
   top: 2%;
