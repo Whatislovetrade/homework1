@@ -1,42 +1,98 @@
-import modal from "./modal"
-
 const form = () => {
-    const forms = document.querySelectorAll('form')
+    const forms = document.querySelectorAll('form'),
+        modalStatus = document.createElement('div'),
+        modalSubmit = document.querySelectorAll('[data-modal]'),
+        inputTel = document.querySelectorAll('')
+
+    // Функция для скрытия модальных окон
+    function modalClose(modal) {
+        modal.forEach(item => {
+            item.style.display = 'none'
+            document.body.style.overflow = ''
+        });
+    }
 
     const message = {
-        succes: 'Отправлено',
-        failure: 'Ошибка',
-        loading: 'Идет отправка'
+        success: 'Данные отправлены успешно!',
+        failure: 'Произошла ошибка при отправке данных!',
+        loading: 'Идет отправка...'
     }
+
+    modalStatus.classList.add('popup')
+    document.querySelector('body').append(modalStatus)
 
     forms.forEach(item => postForm(item))
 
-    function postForm(form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault()
+    async function postForm(form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                const formData = new FormData(form)
+            const formData = new FormData(form);
 
-                fetch('server.php', {
+            // Отображение статуса загрузки
+            showStatusModal(message.loading)
+
+            try {
+                // Отправка данных на сервер
+                const response = await fetch('server.php', {
                     method: 'POST',
                     body: formData
-                })
-                    .then(data => {
-                        return data.text()
-                    })
-                    .then(data => {
-                        console.log(data)
-                    })
-                    .catch(() => {
-                        console.log(message.failure)
-                    })
-                    .finally(() => {
-                        console.log('FINALLY')
-                    })
-            })
+                });
 
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.status}`);
+                }
+
+                const data = await response.text(); // Или `response.json()` для JSON
+                console.log(message.success);
+                console.log('Ответ сервера:', data);
+
+                // Закрываем текущие модальные окна
+                modalClose(modalSubmit);
+
+                // Отображаем статус успешной отправки
+                updateStatusModal(message.success);
+
+            } catch (error) {
+                console.error(message.failure);
+                console.error('Ошибка:', error);
+
+                // Отображаем сообщение об ошибке
+                updateStatusModal(message.failure);
+            } finally {
+                console.log('FINALLY');
+                form.reset(); // Очистка формы
+                // Закрываем модальное окно статуса через 2 секунды
+                setTimeout(() => {
+                    modalStatus.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 2000);
+            }
+        });
     }
 
-}
+    // Функция для отображения модального окна статуса
+    function showStatusModal(statusMessage) {
+        modalStatus.innerHTML = `
+            <div class="popup_dialog">
+                <div class="popup_content text-center">
+                    <div class="popup_message">${statusMessage}</div>
+                </div>
+            </div> 
+        `;
 
-export default form
+        // Отображаем модальное окно
+        modalStatus.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Функция для обновления сообщения в модальном окне
+    function updateStatusModal(newMessage) {
+        const messageElement = modalStatus.querySelector('.popup_message');
+        if (messageElement) {
+            messageElement.textContent = newMessage;
+        }
+    }
+};
+
+export default form;

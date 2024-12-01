@@ -1822,3 +1822,11 @@ textarea:focus {
     animation: none !important;
   }
 }
+
+.popup_message {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  height: 150px;
+  padding: 67px 2px 11px 0px;
+}
