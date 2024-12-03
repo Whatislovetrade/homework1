@@ -2,9 +2,15 @@ const form = () => {
     const forms = document.querySelectorAll('form'),
         modalStatus = document.createElement('div'),
         modalSubmit = document.querySelectorAll('[data-modal]'),
-        inputTel = document.querySelectorAll('')
+        inputTel = document.querySelectorAll('input[name="user_phone"]')
 
-    // Функция для скрытия модальных окон
+
+    const message = {
+        success: 'Данные отправлены успешно!',
+        failure: 'Произошла ошибка при отправке данных!',
+        loading: 'Идет отправка...'
+    }
+
     function modalClose(modal) {
         modal.forEach(item => {
             item.style.display = 'none'
@@ -12,11 +18,37 @@ const form = () => {
         });
     }
 
-    const message = {
-        success: 'Данные отправлены успешно!',
-        failure: 'Произошла ошибка при отправке данных!',
-        loading: 'Идет отправка...'
+    function showStatusModal(statusMessage) {
+        modalStatus.innerHTML = `
+            <div class="popup_dialog">
+                <div class="popup_content text-center">
+                    <div class="popup_message">${statusMessage}</div>
+                </div>
+            </div> 
+        `;
+
+        // Отображаем модальное окно
+        modalStatus.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
+    // Функция для обновления статуса модального окна
+    function updateStatusModal(newMessage) {
+        const messageElement = modalStatus.querySelector('.popup_message');
+        if (messageElement) {
+            messageElement.textContent = newMessage;
+        }
+    }
+
+    function checkInput(input) {
+        input.forEach(item => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/\D/g, '')
+            })
+        })
+    }
+
+    checkInput(inputTel)
+
 
     modalStatus.classList.add('popup')
     document.querySelector('body').append(modalStatus)
@@ -69,29 +101,6 @@ const form = () => {
                 }, 2000);
             }
         });
-    }
-
-    // Функция для отображения модального окна статуса
-    function showStatusModal(statusMessage) {
-        modalStatus.innerHTML = `
-            <div class="popup_dialog">
-                <div class="popup_content text-center">
-                    <div class="popup_message">${statusMessage}</div>
-                </div>
-            </div> 
-        `;
-
-        // Отображаем модальное окно
-        modalStatus.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
-
-    // Функция для обновления сообщения в модальном окне
-    function updateStatusModal(newMessage) {
-        const messageElement = modalStatus.querySelector('.popup_message');
-        if (messageElement) {
-            messageElement.textContent = newMessage;
-        }
     }
 };
 
