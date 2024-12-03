@@ -1,8 +1,11 @@
-const form = () => {
+import checkInputs from "./checkInputs";
+
+const form = (state) => {
     const forms = document.querySelectorAll('form'),
         modalStatus = document.createElement('div'),
-        modalSubmit = document.querySelectorAll('[data-modal]'),
-        inputTel = document.querySelectorAll('input[name="user_phone"]')
+        modalSubmit = document.querySelectorAll('[data-modal]')
+
+    checkInputs()
 
 
     const message = {
@@ -39,17 +42,6 @@ const form = () => {
         }
     }
 
-    function checkInput(input) {
-        input.forEach(item => {
-            item.addEventListener('input', () => {
-                item.value = item.value.replace(/\D/g, '')
-            })
-        })
-    }
-
-    checkInput(inputTel)
-
-
     modalStatus.classList.add('popup')
     document.querySelector('body').append(modalStatus)
 
@@ -61,6 +53,12 @@ const form = () => {
 
             const formData = new FormData(form);
 
+            for (let key in state) {
+                if (state[key] !== undefined && state[key] !== '') {
+                    formData.append(key, state[key]);
+                }
+            }
+    
             // Отображение статуса загрузки
             showStatusModal(message.loading)
 
