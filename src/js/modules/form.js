@@ -7,7 +7,6 @@ const form = (state) => {
 
     checkInputs()
 
-
     const message = {
         success: 'Данные отправлены успешно!',
         failure: 'Произошла ошибка при отправке данных!',

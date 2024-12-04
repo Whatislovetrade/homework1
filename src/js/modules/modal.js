@@ -52,14 +52,14 @@ const modal = () => {
     bindModal('.popup_calc_button', '.popup_calc_profile ','.popup_calc_profile_close')
     bindModal('.popup_calc_profile_button', '.popup_calc_end','.popup_calc_end_close')
 
-    // const timerModal = () => {
-    //     setTimeout(() => {
-    //         document.querySelector('.popup').style.display = 'block'
-    //         document.querySelector('body').style.overflow = 'hidden'
-    //     }, 60000)
-    // }
+    const timerModal = () => {
+        setTimeout(() => {
+            document.querySelector('.popup').style.display = 'block'
+            document.querySelector('body').style.overflow = 'hidden'
+        }, 60000)
+    }
 
-    // timerModal()
+    timerModal()
 }
 
 export default modal
